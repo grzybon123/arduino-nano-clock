@@ -62,7 +62,7 @@ void loop() {
     LisOhour[9] = ten;
     LisOhour[10] = eleven;
     LisOhour[11] = twelve;
-
+    BIG BASS BOSANGA
     for (int godz = 0; godz < 12; ++godz) {
         for (int i = 0; i < lengthsofnum[godz]; i++) {
             leds[LisOhour[godz][i]] = CRGB::Red;

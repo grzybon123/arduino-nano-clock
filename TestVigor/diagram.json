@@ -1,0 +1,29 @@
+{
+    "version": 1,
+    "author": "Grzybon",
+    "editor": "wokwi",
+    "parts": [
+      { "type": "wokwi-arduino-nano", "id": "nano", "top": 0, "left": 0, "attrs": {} },
+      {
+        "type": "wokwi-pushbutton",
+        "id": "btn1",
+        "top": 35,
+        "left": 259.2,
+        "attrs": { "color": "green", "xray": "1" }
+      },
+      {
+        "type": "wokwi-resistor",
+        "id": "r1",
+        "top": -53.65,
+        "left": 182.4,
+        "attrs": { "value": "10000" }
+      }
+    ],
+    "connections": [
+      [ "nano:GND.2", "btn1:1.l", "black", [ "v-33.6", "h133.9" ] ],
+      [ "nano:5V", "btn1:2.l", "red", [ "v62.4", "h133.9" ] ],
+      [ "nano:2", "r1:1", "green", [ "v0" ] ],
+      [ "r1:2", "btn1:1.r", "green", [ "v0", "h75.6" ] ]
+    ],
+    "dependencies": {}
+  }

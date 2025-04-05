@@ -6,7 +6,8 @@ int* LisOlis[6];
 
 int lengthsofnum[12] = {3, 3, 5, 4, 4, 3, 5, 5, 4, 3, 6, 6};
 int lisOleng[6] = {4, 10, 6, 8, 3, 4};
-
+#define BUTTON_PIN 3  // Define the pin where the button is connected
+volatile bool buttonPressed = false;
 // LED array setup
 
 // Global arrays (initialized with values)
@@ -24,22 +25,27 @@ int nine[4] = {58, 57, 56, 55};
 int ten[3] = {0, 1, 2};
 int eleven[6] = {27, 28, 29, 30, 31, 32};
 int twelve[6] = {16, 15, 14, 13, 12, 11};
-
+int buttonState = 0;
 int Half[4] = {66, 67, 68, 69};
 int TwentyFive[10] = {87, 86, 85, 84, 83, 82, 77, 80, 79, 78};
 int twenty[6] = {87, 86, 85, 84, 83, 82};
 int quar[8] = {90, 91, 92, 93, 94, 95, 96,88};
 int Ten[3] = {71, 72, 73};
 int Funf[4] = {77, 80, 79, 78};
-
+int czas = 500;
+int godz = 0;
+void buttonISR() {
+    buttonPressed = true;  // Set flag when button is pressed
+}
 // FastLED setup function
 void setup() {
-
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(3, INPUT);
     FastLED.addLeds<NEOPIXEL, 2>(leds, NUM_LEDS);
-
-
 }
-int itis()
+
+
+void itis()
     {
       leds[109] = CRGB::Blue;
       leds[108] = CRGB::Blue;
@@ -47,7 +53,7 @@ int itis()
       leds[105] = CRGB::Blue;
     }
 
-int oblock(){
+void oblock(){
       leds[5] = CRGB::Orange;
       leds[6] = CRGB::Orange;
       leds[7] = CRGB::Orange;
@@ -62,6 +68,21 @@ int past(){
             leds[63] = CRGB::Blue;
             leds[62] = CRGB::Blue;
 }
+
+
+
+void customDelay(unsigned long waitTime) {
+    for (int iterator; iterator < waitTime; iterator= iterator +1)
+    {
+      delay(1);
+      buttonState = digitalRead(3);
+
+      if (buttonState == HIGH){
+        digitalWrite(LED_BUILTIN, HIGH);  // turn the LED on (HIGH is the voltage level)
+        godz = godz + 1;
+      }
+    }
+}
 // Main loop function
 void loop() {
     // Initialize LisOlis and LisOhour arrays
@@ -71,7 +92,6 @@ void loop() {
     LisOlis[3] = quar;
     LisOlis[4] = Ten;
     LisOlis[5] = Funf;
-
     LisOhour[0] = one;
     LisOhour[1] = two;
     LisOhour[2] = three;
@@ -84,7 +104,7 @@ void loop() {
     LisOhour[9] = ten;
     LisOhour[10] = eleven;
     LisOhour[11] = twelve;
-    for (int godz = 0; godz < 12; ++godz) {
+    for (godz; godz < 12; ++godz) {
         for (int el = 5; el >= 0; --el) {
            // od x.30 do x.
             for (int i = 0; i < lengthsofnum[godz]; i++) 
@@ -98,7 +118,7 @@ void loop() {
             past();
             itis();
             FastLED.show();
-            delay(3000);
+            customDelay(czas);
             FastLED.clear();
         }
 
@@ -106,10 +126,11 @@ void loop() {
             {
                 leds[LisOhour[godz][i]] = CRGB::Yellow;
             } // godzina x.00
+
             itis();
             oblock();
             FastLED.show();
-            delay(3000);
+            customDelay(czas);
             FastLED.clear();
 
         for (int el = 1; el < 6; ++el) {
@@ -125,10 +146,11 @@ void loop() {
             leds[75] = CRGB::Blue;  //to
             leds[76] = CRGB::Blue;
             FastLED.show();
-            delay(3000);
+            customDelay(czas);
             FastLED.clear();
         }
-
-
     }
+
+
+  FastLED.clear();  
 }
